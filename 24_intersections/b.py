@@ -51,6 +51,8 @@ Prz.Vrx
 Prz.Vry
 '''
 
+tInit = 100_000_000_000_000
+
 class hailstone:
     def __init__(self, p, v):
         (self.x, self.y, self.z) = p
@@ -66,10 +68,15 @@ class hailstone:
         return f'p=({self.x}, {self.y}, {self.z}),v=({self.vx}, {self.vy}, {self.vz})'
 
     def coefs(self):
+        t = -self.x // self.vx
+        x = self.x + t * self.vx
+        y = self.y + t * self.vy
+        z = self.z + t * self.vz
+        print(self, t, "->", x, y, z)
         return [
-            self.y*self.vx*self.vz - self.z*self.vx*self.vy,
-            self.x*self.vx*self.vx - self.x*self.vx*self.vy,
-            self.x*self.vz*self.vx - self.z*self.vx*self.vx ,
+            y*self.vx*self.vz - z*self.vx*self.vy,
+            x*self.vx*self.vx - x*self.vx*self.vy,
+            x*self.vz*self.vx - z*self.vx*self.vx ,
             -self.vx*self.vz,
             self.vx*self.vy,
             self.vx*self.vz,
@@ -102,14 +109,14 @@ def gauss_resolution(m):
     size = len(m)  
     A = [ l + [ i ] for i,l in enumerate(m) ]
     for j in range(size):
-        printM(A)
+        # printM(A)
 
         p = j
         for i in range(j, size):
             if abs(A[i][j]) > abs(A[p][j]):
                 p = i
         A[j], A[p] = A[p], A[j]
-        print(j, p, "=>", A[p][j])
+        # print(j, p, "=>", A[p][j])
         if A[j][j] == 0:
             continue
 
@@ -165,8 +172,11 @@ parseInput()
 # ]))
 
 matrix = []
-for h in hailstones[:9]:
-    matrix.append(h.coefs())
+for h in hailstones:
+    if h.vx > 0 and h.vy > 0 and h.vz > 0:
+        matrix.append(h.coefs())
+        if len(matrix) == 9:
+            break
 
 (Vrx, Vry, Vrz, PrxVry, PrxVrz, PryVrx, PryVrz, PrzVrx, PrzVry ) = gauss_resolution(matrix)
 Prx = PrxVry/Vry
