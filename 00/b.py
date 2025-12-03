@@ -1,13 +1,12 @@
 #!/bin/env python3
+import sys
 
 sum = 0
 
-file = 'sample_b.txt'
-# file = 'data_b.txt'
+file = sys.argv[1]
 
 for i, line in enumerate(open(file)):
     line = line.strip('\n')
     print("read " + line)
-
 
 print(sum)
