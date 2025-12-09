@@ -24,14 +24,14 @@ while True:
     i, line = next(consumer)
     if line == "":
         break
-    ranges.append([ f"{v:>020}" for v in line.split('-') ])
+    ranges.append([ int(v) for v in line.split('-') ])
 
 print(ranges)
 
 while True:
     try:
         i, line = next(consumer)
-        line = f"{line:>020}"
+        line = int(line)
         print(f"ID {line}")
         if check(line):
             print(" OK")
