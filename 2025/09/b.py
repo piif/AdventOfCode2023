@@ -27,30 +27,44 @@ for x, y in tiles:
     miny = min(miny, y)
     maxy = max(maxy, y)
 
+minx=0
+maxx=12
+
 ground = [ [ '.' for x in range(minx, maxx+1) ] for y in range(miny, maxy+1) ]
 print(f"{minx}..{maxx} , {miny}..{maxy}")
 
-def draw(x0, y0, x1, y1):
+def draw(x0, y0, x1, y1, x2, y2):
     global minx, miny, maxx, maxy, ground
 
     # print(f" #[{x1},{y1}]")
-    ground[y1-miny][x1-minx] = '#'
+    ground[y1-miny][x1-minx] = '#' ## ⇒ ╭ ╮ ╯ ╰ 
+    # ╭< x-1 y+1 >╮ x+1 y+1 <╯ y+1 x-1 ╰> y+1 x+1
+    # ╭> y-1 x+1 <╮ y-1 x-1 >╯ x+1 y-1 ╰< x-1 y-1
+    #  \.../ or /...\ != /.../ or \...\   ⇔   same/different corners
+
     if x0 == x1:
         for y in range(min(y0, y1)+1, max(y0, y1)):
-            ground[y-miny][x0-minx] = 'X'
+            ground[y-miny][x0-minx] = '|'
     else:
         for x in range(min(x0, x1)+1, max(x0, x1)):
-            ground[y0-miny][x-minx] = 'X'
+            ground[y0-miny][x-minx] = '-'
 
 x0, y0 = tiles[0]
-ground[y0-miny][x0-minx] = '#'
-for x1, y1 in tiles[1:]:
-    draw(x0, y0, x1, y1)
+x1, y1 = tiles[0]
+# ground[y0-miny][x0-minx] = '#'
+for x2, y2 in tiles[1:]:
+    draw(x0, y0, x1, y1, x2, y2)
     x0, y0 = x1, y1
-draw(x0, y0, tiles[0][0], tiles[0][1])
+    x1, y1 = x2, y2
+x2, y2 = tiles[0]
+draw(x0, y0, x1, y1, x2, y2)
+x0, y0 = x1, y1
+x1, y1 = x2, y2
+x2, y2 = tiles[1]
+draw(x0, y0, x1, y1, x2, y2)
 
 for line in ground:
-    print(line)
+    print(''.join(line))
 print("\n")
 
 for y, line in enumerate(ground):
@@ -64,7 +78,7 @@ for y, line in enumerate(ground):
         prev = cell
 
 for line in ground:
-    print(line)
+    print(''.join(line))
 
 # max_area = 0
 
