@@ -1,9 +1,9 @@
 #!/bin/env python3
+import sys
 
 sum = 0
 
-#file = 'sample_a.txt'
-file = 'data_a.txt'
+file = sys.argv[1]
 
 pos = 50
 

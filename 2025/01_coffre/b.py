@@ -1,9 +1,9 @@
 #!/bin/env python3
+import sys
 
-sum = 0
+total = 0
 
-#file = 'sample_a.txt'
-file = 'data_a.txt'
+file = sys.argv[1]
 
 pos = 50
 
@@ -21,11 +21,10 @@ for i, line in enumerate(open(file)):
         newpos = pos + move
     else:
         raise Exception(f"Unexpected dir {dir}")
-    delta = abs(newpos // 100)
-    if delta > 0 and pos == 0:
-        delta -= 1
-    sum += delta
+    total += abs(newpos) // 100
+    if newpos <= 0 and pos != 0:
+        total += 1
     pos = newpos % 100
-    print(f"{i: 5}:{line:<5} ->{newpos // 100: 4} -> {pos: 3} => {sum}")
+    print(f"{i: 5}:{line:<5} → {newpos: 5} → {pos: 3} ⇒ {total}")
 
-print(sum)
+print(total)
