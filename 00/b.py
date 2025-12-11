@@ -1,7 +1,7 @@
 #!/bin/env python3
 import sys
 
-sum = 0
+total = 0
 
 file = sys.argv[1]
 
@@ -9,4 +9,4 @@ for i, line in enumerate(open(file)):
     line = line.strip('\n')
     print("read " + line)
 
-print(sum)
+print(total)
